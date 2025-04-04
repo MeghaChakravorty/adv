@@ -21,11 +21,13 @@
     }
     /* Panes */
     #left-pane, #details-panel {
+      flex: 1;
       width: 50%;
       box-sizing: border-box;
       transition: width 0.3s, display 0.3s;
     }
     #left-pane {
+      min-height: 800px;
       border: 1px solid #ccc;
       padding: 10px;
     }
@@ -43,6 +45,7 @@
     }
     /* Tree container */
     #tree-container {
+      flex: 1;
       border: 1px solid #ccc;
       padding: 10px;
       overflow: auto;
@@ -429,10 +432,14 @@
       }
       
       function assignClusters(node) {
-        if (node && node.id && clusterMapping[node.id] !== undefined) {
-          node.data.cluster = clusterMapping[node.id];
-          node.cluster = clusterMapping[node.id];
-          console.log(`Assigned cluster ${node.cluster} to node ${node.id}`);
+        if (node && node.id) {
+          if (clusterMapping[node.id] !== undefined) {
+            node.data.cluster = clusterMapping[node.id];
+            node.cluster = clusterMapping[node.id];
+            console.log(`Assigned cluster ${node.cluster} to node ${node.id}`);
+          } else {
+            console.warn(`No matching cluster for node id: ${node.id}`);
+          }
         }
         if (node.children) {
           node.children.forEach(child => assignClusters(child));
